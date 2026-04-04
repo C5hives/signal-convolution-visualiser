@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Convolution Explorer</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div>
+            <h1>Convolution Explorer</h1>
+
+            <div class="introduction">
+                <h2>What is Convolution?</h2>
+
+                <p>
+                    Convolution is a way of combining two signals. You can think of it as a
+                    small window (called a kernel) sliding across a signal. At each position,
+                    we multiply the overlapping values and sum them to produce a new value.
+                    This process allows us to smooth signals, detect edges, and apply many
+                    useful transformations.
+                </p>
+
+                <div class="viz-container">
+                    <div class="viz-block">
+                        <h3>Convolving the Input Signal</h3>
+                        <canvas id="convWorkspace" width="800" height="150"></canvas>
+                    </div>
+
+                    <div class="viz-block">
+                        <h3>Output Signal</h3>
+                        <canvas id="convOutput" width="800" height="150"></canvas>
+                    </div>
+                </div>
+
+                <div id="mathBox"></div>
+            </div>
+
+            <div class="convolution-1d">
+            </div>
+
+            <div class="convolution-2d">
+            </div>
+
+            <script src="script.js"></script>
+        </div>
+    </body>
+</html>
