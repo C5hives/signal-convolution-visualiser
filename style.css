@@ -47,7 +47,6 @@ canvas {
     gap: 20px;
 }
 
-.viz-block canvas {
-    width: 100%;
-    height: 150px;
+canvas {
+    display: block;
 }

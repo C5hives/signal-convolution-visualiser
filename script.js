@@ -25,6 +25,14 @@ function convolve(signal, kernel) {
     return output;
 }
 
+function setupCanvas(canvasId) {
+    const canvas = document.getElementById(canvasId);
+
+    // lock internal resolution to display size
+    canvas.width = 800;
+    canvas.height = 150;
+}
+
 const demoSignal = generateNoisySignal();
 const demoKernel = [1, 1, 1];
 const demoOutput = convolve(demoSignal, demoKernel);
@@ -35,49 +43,84 @@ function drawConvolutionWorkspace(canvasId, signal, kernel, centerIndex) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // -------------------------
+    // LAYOUT CONSTANTS (FIXED)
+    // -------------------------
     const paddingLeft = 40;
-    const plotWidth = canvas.width - paddingLeft;
+    const paddingRight = 10;
+
+    const plotWidth = canvas.width - paddingLeft - paddingRight;
     const step = plotWidth / (signal.length - 1);
 
-    const midY = canvas.height * 0.35;     // SIGNAL AREA
-    const kernelY = canvas.height * 0.75;   // KERNEL AREA
+    // SIGNAL AREA (top ~60%)
+    const signalTop = canvas.height * 0.05;
+    const signalBottom = canvas.height * 0.75;
+
+    const signalHeight = signalBottom - signalTop;
+    const midY = signalTop + signalHeight / 2;
+
+    // KERNEL AREA (tightly coupled under signal)
+    const kernelGap = 10; // pixels (tune this)
+    const kernelY = signalBottom + kernelGap;
 
     const boxHeight = 18;
     const kHalf = Math.floor(kernel.length / 2);
 
     // -------------------------
-    // TITLE
+    // SCALE
     // -------------------------
-    ctx.fillStyle = "#444";
-    ctx.font = "bold 12px Arial";
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    ctx.fillText("Convolution: signal + sliding kernel", 10, 5);
+    const maxVal = Math.max(...signal.map(v => Math.abs(v))) || 1;
+    const scale = signalHeight / 2 / maxVal;
 
     // -------------------------
-    // SIGNAL SCALE
-    // -------------------------
-    let maxVal = Math.max(...signal.map(v => Math.abs(v))) || 1;
-    let scale = (canvas.height * 0.25) / maxVal;
-
-    // -------------------------
-    // SIGNAL AXIS
+    // AXES
     // -------------------------
     ctx.strokeStyle = "#aaa";
+    ctx.lineWidth = 1;
+
+    // zero axis
     ctx.beginPath();
     ctx.moveTo(paddingLeft, midY);
     ctx.lineTo(canvas.width, midY);
     ctx.stroke();
 
+    // vertical axis
+    ctx.beginPath();
+    ctx.moveTo(paddingLeft, signalTop);
+    ctx.lineTo(paddingLeft, signalBottom);
+    ctx.stroke();
+
     // -------------------------
-    // SIGNAL LINE
+    // Y TICKS (SYMMETRIC FIXED)
+    // -------------------------
+    const ticks = 3;
+
+    ctx.fillStyle = "#666";
+    ctx.font = "10px Arial";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+
+    for (let i = -ticks; i <= ticks; i++) {
+        const value = (i / ticks) * maxVal;
+        const y = midY - value * scale;
+
+        ctx.beginPath();
+        ctx.moveTo(paddingLeft - 4, y);
+        ctx.lineTo(paddingLeft, y);
+        ctx.stroke();
+
+        ctx.fillText(value.toFixed(1), paddingLeft - 6, y);
+    }
+
+    // -------------------------
+    // SIGNAL
     // -------------------------
     ctx.strokeStyle = "black";
     ctx.beginPath();
 
     for (let i = 0; i < signal.length; i++) {
-        let x = paddingLeft + i * step;
-        let y = midY - signal[i] * scale;
+        const x = paddingLeft + i * step;
+        const y = midY - signal[i] * scale;
 
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
@@ -86,63 +129,62 @@ function drawConvolutionWorkspace(canvasId, signal, kernel, centerIndex) {
     ctx.stroke();
 
     // -------------------------
-    // HIGHLIGHT WINDOW (signal region)
+    // HIGHLIGHT WINDOW (UNCHANGED LOGIC, BETTER VISUAL INTEGRATION)
     // -------------------------
-    let start = Math.max(0, centerIndex - kHalf);
-    let end = Math.min(signal.length - 1, centerIndex + kHalf);
+    const start = Math.max(0, centerIndex - kHalf);
+    const end = Math.min(signal.length - 1, centerIndex + kHalf);
 
-    let x = paddingLeft + start * step;
-    let width = (end - start + 1) * step;
+    const x = paddingLeft + start * step;
+    const width = (end - start + 1) * step;
 
     ctx.fillStyle = "rgba(255,107,53,0.2)";
-    ctx.fillRect(x, midY - canvas.height * 0.2, width, canvas.height * 0.4);
+    ctx.fillRect(x, signalTop, width, signalHeight);
 
     // -------------------------
-    // KERNEL LABEL
-    // -------------------------
-    ctx.fillStyle = "#555";
-    ctx.font = "bold 12px Arial";
-    ctx.fillText("Kernel (sliding window)", 10, canvas.height * 0.55);
-
-    // -------------------------
-    // KERNEL ROW (NO OVERLAP WITH SIGNAL)
+    // KERNEL (FIXED ALIGNMENT + TIGHT COUPLING)
     // -------------------------
     for (let j = 0; j < kernel.length; j++) {
-        let idx = centerIndex + j - kHalf;
+        const idx = centerIndex + j - kHalf;
         if (idx < 0 || idx >= signal.length) continue;
 
-        let xLeft = paddingLeft + idx * step;
-        let xCenter = xLeft + step / 2;
+        const xLeft = paddingLeft + idx * step;
+        const xCenter = xLeft + step / 2;
 
-        let val = kernel[j];
+        const val = kernel[j];
 
+        // block
         ctx.fillStyle = idx === centerIndex ? "#e85d2a" : "#ff6b35";
-
         ctx.fillRect(xLeft, kernelY - boxHeight / 2, step, boxHeight);
 
-        ctx.strokeStyle = "rgba(0,0,0,0.1)";
+        ctx.strokeStyle = "rgba(0,0,0,0.15)";
         ctx.strokeRect(xLeft, kernelY - boxHeight / 2, step, boxHeight);
 
+        // label (FIXED alignment)
         ctx.fillStyle = "#333";
         ctx.font = "10px Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "top";
 
         ctx.fillText(
-            val.toFixed(1),
+            val.toFixed(0),
             xCenter,
             kernelY + boxHeight / 2 + 4
         );
     }
 
     // -------------------------
-    // KERNEL BASELINE (optional visual structure)
+    // X TICKS
     // -------------------------
-    ctx.strokeStyle = "#ddd";
-    ctx.beginPath();
-    ctx.moveTo(paddingLeft, kernelY);
-    ctx.lineTo(canvas.width, kernelY);
-    ctx.stroke();
+    ctx.strokeStyle = "rgba(0,0,0,0.2)";
+
+    for (let i = 0; i < signal.length; i++) {
+        const x = paddingLeft + i * step;
+
+        ctx.beginPath();
+        ctx.moveTo(x, midY - 6);
+        ctx.lineTo(x, midY + 6);
+        ctx.stroke();
+    }
 }
 
 // -------------------------
@@ -281,6 +323,9 @@ let smoothCenter = 0;
 let smoothing = 0.12;
 
 function animate() {
+    // setupCanvas("convWorkspace");
+    // setupCanvas("convOutput");
+
     let maxIndex = demoSignal.length - 1;
 
     // smooth motion
