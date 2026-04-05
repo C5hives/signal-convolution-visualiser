@@ -34,7 +34,7 @@ function setupCanvas(canvasId) {
 }
 
 const demoSignal = generateNoisySignal();
-const demoKernel = [1, 1, 1];
+const demoKernel = [1, 2, 3];
 const demoOutput = convolve(demoSignal, demoKernel);
 
 function drawConvolutionWorkspace(canvasId, signal, kernel, centerIndex) {
