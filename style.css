@@ -68,9 +68,36 @@ canvas {
     width: 100%;
 }
 
-td {
-    border: 1px solid black;
+table {
+    width: 100%;
     border-collapse: collapse;
-    padding: 6px;
+    margin: 16px 0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 12px;
     text-align: center;
+    vertical-align: middle;
+}
+
+thead td {
+    font-weight: bold;
+    background-color: #2f3b52;
+    color: white;
+    border-color: #2f3b52;
+}
+
+tr:nth-child(even) {
+    background-color: #f7f9fc;
+}
+
+tr:hover {
+    background-color: #eef4ff;
 }

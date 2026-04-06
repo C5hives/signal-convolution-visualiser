@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Convolution Explorer</title>
+        <title>Signal Convolution for Dummies</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </head>
@@ -21,7 +21,7 @@
                     <strong>Note:</strong> A kernel can sometimes be referred to as an impulse signal.
                 </div>
                 <div class="info-box">
-                    <strong>Note:</strong> All signals discussed on this site will be discrete signals unless stated otherwise.
+                    <strong>Note:</strong> All signals discussed on this webpage will be discrete signals unless stated otherwise.
                 </div>
                 <p>
                     <p>
@@ -45,6 +45,7 @@
                     on the overlapping values and <strong>sum</strong> them to produce a new output value.
                 </p>
 
+                <h3>1.2. Visualising the Steps of a Convolution</h2>
                 <p>
                     The process can be better understood through the visualisation below, which takes you through
                     the step-by-step process to convolve a randomly generated noisy sinusoidal input signal using
@@ -93,7 +94,7 @@
                     <button id="resetBtn">🔄 Reset</button>
                 </div>
 
-                <h3>1.2. Observations</h2>
+                <h3>1.3. Observations</h2>
                 <p>
                     Notice that the kernel is "flipped" when sliding across the input signal.
                     This comes directly from the definition of the convolution integral:
@@ -101,21 +102,18 @@
                 </p>
 
                 <p>
-                    The term \((t - \tau)\) evaluates the kernel in reversed time, which is equivalent to
+                    The term \((t - \tau)\) evaluates the kernel \(h\) in reversed time, which is equivalent to
                     flipping the kernel before shifting it across the input signal.
                 </p>
 
                 <p>
                     In this demonstration, the effect on the output may appear subtle because the chosen
-                    kernel is relatively simple.
-
-                    We will explore kernels that are more expressive in later sections, where the effects of convolution
-                    become more visually apparent.
+                    kernel is relatively simple. We will explore kernels that are more expressive in the later sections.
                 </p>
             </div>
 
-            <div class="dealing-with-discrete-signals">
-                <h2>2. Linear and Circular Convolutions</h2>
+            <div class="linear-vs-circular-convolutions">
+                <h2>2. Linear vs. Circular Convolutions</h2>
                 <p>
                     Linear convolution can be thought of as the <em>true</em> convolution between two signals, 
                     where one signal slides fully across the other without any boundary assumptions.
@@ -137,19 +135,22 @@
                     we can pad both the input signal and kernel with zeroes to avoid the wrap-around effect.
                 </p>
 
-                <p>
-                    In the case of 1D, if the input signal has length \(m\) and the kernel has 
-                    length \(p\), both must be zero-padded to a minimum length of 
-                    \((m + p − 1)\) before performing the DFT. This ensures that circular 
-                    convolution in the frequency domain corresponds to linear convolution 
-                    in the time domain.
-                </p>
-
-                <p>
-                    In the case of 2D, if the input signal is of size \(m\) by \(n\) and the kernel
-                    is of size \(p\) by \(q\), both must be zero-padded to a minimum size of \((m + p − 1)\)
-                    by \((n + q − 1)\) before performing the DFT.
-                </p>
+                <ul>
+                    <li>
+                        <p>
+                            In the case of 1D, if the input signal has length \(m\) and the kernel has 
+                            length \(p\), both must be zero-padded to a minimum length of 
+                            \((m + p − 1)\) before performing the DFT.
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            In the case of 2D, if the input signal is of size \(m\) by \(n\) and the kernel
+                            is of size \(p\) by \(q\), both must be zero-padded to a minimum size of \((m + p − 1)\)
+                            by \((n + q − 1)\) before performing the DFT.
+                        </p>
+                    </li>
+                </ul> 
             </div>
 
             <div class="convolution-theorem">
@@ -169,7 +170,7 @@
 
                 <p>
                     This duality allows us to switch between domains depending on which operation is 
-                    more convenient. In particular, convolution can be computed more efficiently by 
+                    more convenient. In particular, convolution in the time domain can be computed more efficiently by 
                     transforming signals into the frequency domain, performing a simple multiplication, 
                     and then transforming the result back.
                 </p>
@@ -188,55 +189,155 @@
                 </p>
             </div>
 
+            <h2>4. Applications of Convolution</h2>
+
+            <p>
+                Convolution is a fundamental operation used across domains such as:
+            </p>
+                <ul>
+                    <li>processing audio signals</li>
+                    <li>processing/analysing images</li>
+                </ul> 
+            <p>
+                While the underlying mathematical principle remains the same, its applications
+                can vary depending on whether the data is one-dimensional or two-dimensional.
+            </p>
+
             <div class="convolution-applications-1d">
-                <h2>1-Dimensional (1D) Applications of Convolution</h2>
+                <h3>4.1. One-Dimensional (1D) Applications of Convolution</h3>
+                <p>
+                    In one-dimensional signals such as audio or time-series data, convolution can be 
+                    used to modify or analyse how a signal changes over time.
+                    
+                    By applying different kernels, we can smooth out noise, remove unwanted frequency
+                    components, or simulate real-world effects such as echoes and reverberation.
+                </p>
+                <p>
+                    These operations can be performed either directly in the time domain using
+                    convolution, or more efficiently in the frequency domain using pairwise multiplication
+                    via the Fourier Transform. A few applications of 1D convolution can be seen below:
+                </p>
                 <table>
-                    <tr>
-                        <td rowspan="2">Application</td>
-                        <td rowspan="2">Purpose</td>
-                        <td colspan="2">Operation performed in</td>
-                    </tr>
-                    <tr>
-                        <td>Time Domain</td>
-                        <td>Frequency Domain</td>
-                    </tr>
-                    <tr>
-                        <td>Signal Smoothing</td>
-                        <td>Reduce noise and rapid fluctuations in the signal</td>
-                        <td>Convolution</td>
-                        <td>Pairwise Multiplication</td>
-                    </tr>
-                    <tr>
-                        <td>Low Pass Filter</td>
-                        <td>Remove high-frequency components</td>
-                        <td>Convolution</td>
-                        <td>Pairwise Multiplication</td>
-                    </tr>
-                    <tr>
-                        <td>Adding Audio Effects (e.g. echo, reverb)</td>
-                        <td>Modify signal using impulse response</td>
-                        <td>Convolution</td>
-                        <td>Pairwise Multiplication</td>
-                    </tr>
-                    <tr>
-                        <td>Sampling</td>
-                        <td>Convert a continuous signal into discrete samples</td>
-                        <td>Pairwise Multiplication</td>
-                        <td>Convolution</td>
-                    </tr>
+                    <colgroup>
+                        <col style="width: 22%;">
+                        <col style="width: 38%;">
+                        <col style="width: 20%;">
+                        <col style="width: 20%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td rowspan="2">Application</td>
+                            <td rowspan="2">Purpose</td>
+                            <td colspan="2">Operation performed in</td>
+                        </tr>
+                        <tr>
+                            <td>Time Domain</td>
+                            <td>Frequency Domain</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Signal Smoothing</td>
+                            <td>Reduce noise and rapid fluctuations in the signal</td>
+                            <td>Convolution</td>
+                            <td>Pairwise Multiplication</td>
+                        </tr>
+                        <tr>
+                            <td>Low Pass Filter</td>
+                            <td>Remove high-frequency components</td>
+                            <td>Convolution</td>
+                            <td>Pairwise Multiplication</td>
+                        </tr>
+                        <tr>
+                            <td>Adding Audio Effects (e.g. echo, reverb)</td>
+                            <td>Modify signal using impulse response</td>
+                            <td>Convolution</td>
+                            <td>Pairwise Multiplication</td>
+                        </tr>
+                        <tr>
+                            <td>Sampling</td>
+                            <td>Convert a continuous signal into discrete samples</td>
+                            <td>Pairwise Multiplication</td>
+                            <td>Convolution</td>
+                        </tr>
+                    </tbody>
+                    
                 </table> 
             </div>
 
-            <div class="convolution-applications-2d">
-                <h2>2-Dimensional (2D) Applications of Convolution</h2>
+            <div class="convolution-sandbox-1d">
+                <h4>4.1.1. Try it Yourself!</h4>
+                <!--some interactive sandbox here-->
             </div>
 
-            <div class="sandbox">
-                <h2>Convolution Sandbox</h2>
+            <div class="convolution-applications-2d">
+                <h3>4.2. Two-Dimensional (2D) Applications of Convolution</h3>
+                <p>
+                    In two-dimensional signals such as images, convolution operates over both height 
+                    and width, allowing us to process spatial features.
+                    
+                    By applying different kernels, we can blur images, sharpen details, detect edges,
+                    or extract meaningful patterns. 
+                </p>
+                <p>
+                    Similar to the 1D case, these operations can be performed in the spatial domain 
+                    using convolution, or in the frequency domain using pairwise multiplication with 
+                    the 2D Fourier Transform. A few applications of 2D convolution can be seen below:
+                </p>
+                <table>
+                    <colgroup>
+                        <col style="width: 22%;">
+                        <col style="width: 38%;">
+                        <col style="width: 20%;">
+                        <col style="width: 20%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td rowspan="2">Application</td>
+                            <td rowspan="2">Purpose</td>
+                            <td colspan="2">Operation performed in</td>
+                        </tr>
+                        <tr>
+                            <td>Spatial Domain</td>
+                            <td>Frequency Domain</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Image Smoothing (Blurring)</td>
+                            <td>Reduce noise and fine detail in an image</td>
+                            <td>Convolution (e.g. Gaussian kernel)</td>
+                            <td>Pairwise Multiplication</td>
+                        </tr>
+                        <tr>
+                            <td>Image Sharpening</td>
+                            <td>Enhance edges and fine details</td>
+                            <td>Convolution (high-pass filter)</td>
+                            <td>Pairwise Multiplication</td>
+                        </tr>
+                        <tr>
+                            <td>Edge Detection</td>
+                            <td>Highlight boundaries and object edges</td>
+                            <td>Convolution (e.g. Sobel, Laplacian kernels)</td>
+                            <td>Pairwise Multiplication</td>
+                        </tr>
+                        <tr>
+                            <td>Feature Extraction</td>
+                            <td>Detect patterns such as textures or shapes</td>
+                            <td>Convolution (learned filters, e.g. CNNs)</td>
+                            <td>Pairwise Multiplication</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="convolution-sandbox-1d">
+                <h4>4.2.1. Try it Yourself!</h4>
+                <!--some interactive sandbox here-->
             </div>
 
             <div class="references">
-                <h2>References & Acknowledgements</h2>
+                <h2>5. References & Acknowledgements</h2>
             </div>
             <script src="convolution-step-visualisation.js"></script>
             <!-- <script src="script.js"></script> -->

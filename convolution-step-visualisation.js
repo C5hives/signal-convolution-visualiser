@@ -174,14 +174,14 @@ function getRegions() {
             top: layout.paddingTop + 4 * regionHeight + layout.gap,
             bottom: layout.paddingTop + 5 * regionHeight + layout.gap
         },
-        compute: {
-            top: layout.paddingTop + 5 * regionHeight + layout.gap,
-            bottom: layout.paddingTop + 6 * regionHeight + layout.gap,
-        },
         output: {
-            top: layout.paddingTop + 6 * regionHeight + 2 * layout.gap,
+            top: layout.paddingTop + 5 * regionHeight + 2 * layout.gap,
+            bottom: layout.paddingTop + 9 * regionHeight + 2 * layout.gap,
+        },
+        compute: {
+            top: layout.paddingTop + 9 * regionHeight + 7 * layout.gap,
             bottom: h - layout.paddingBottom
-        }
+        },
     };
 }
 
