@@ -70,7 +70,8 @@ canvas {
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin: 16px 0;
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -80,24 +81,41 @@ table {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* cell borders */
 td {
-    border: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
     padding: 10px 12px;
     text-align: center;
     vertical-align: middle;
 }
 
+/* remove outer duplicate borders */
+tr td:first-child {
+    border-left: 1px solid #e0e0e0;
+}
+
+thead tr:first-child td {
+    border-top: 1px solid #e0e0e0;
+}
+
+/* header styling */
 thead td {
     font-weight: bold;
     background-color: #2f3b52;
     color: white;
-    border-color: #2f3b52;
 }
 
+/* zebra rows */
 tr:nth-child(even) {
     background-color: #f7f9fc;
 }
 
 tr:hover {
     background-color: #eef4ff;
+}
+
+/* remove bottom border on last row to prevent overflow past radius */
+tr:last-child td {
+    border-bottom: none;
 }
