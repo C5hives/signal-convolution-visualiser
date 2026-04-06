@@ -67,3 +67,10 @@ canvas {
 #stepScrubber {
     width: 100%;
 }
+
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 6px;
+    text-align: center;
+}

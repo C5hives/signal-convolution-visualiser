@@ -7,23 +7,26 @@
     </head>
     <body>
         <div>
-            <h1>Convolution Explorer</h1>
+            <h1>Signal Convolution for Dummies</h1>
 
             <div class="introduction">
-                <h2>What is a Convolution?</h2>
+                <h2>1. What is a Convolution?</h2>
 
                 <p>
-                    Convolution is a method of combining two signals to generate a new output signal.
-                    More specifically, we can obtain an output signal \(g(t)\) by convolving an input
-                    signal \(x(t)\) and a kernel \(h(t)\).                  
+                    A convolution is the method of combining two signals to generate a new output signal.
+                    More specifically, we can obtain an output signal \(g[n]\) by convolving an input
+                    signal \(x[n]\) and a kernel \(h[n]\).                  
                 </p>
                 <div class="info-box">
                     <strong>Note:</strong> A kernel can sometimes be referred to as an impulse signal.
                 </div>
+                <div class="info-box">
+                    <strong>Note:</strong> All signals discussed on this site will be discrete signals unless stated otherwise.
+                </div>
                 <p>
                     <p>
                         Mathematically, the formula for convolution is as follows:
-                        $$g(t) = x(t) * h(t)$$
+                        $$g[n] = x[n] * h[n]$$
                     </p>
                 </p>
                 <p>
@@ -33,7 +36,7 @@
             </div>
 
             <div class="how-to-perform-a-convolution">
-                <h2>How do you perform a Convolution?</h2>
+                <h3>1.1. How do you perform a Convolution?</h2>
                 <p>
                     You can think of it as a small window, the kernel in this case, sliding across the
                     input signal.
@@ -90,6 +93,7 @@
                     <button id="resetBtn">🔄 Reset</button>
                 </div>
 
+                <h3>1.2. Observations</h2>
                 <p>
                     Notice that the kernel is "flipped" when sliding across the input signal.
                     This comes directly from the definition of the convolution integral:
@@ -97,7 +101,7 @@
                 </p>
 
                 <p>
-                    The term \(h(t - \tau)\) evaluates the kernel in reversed time, which is equivalent to
+                    The term \((t - \tau)\) evaluates the kernel in reversed time, which is equivalent to
                     flipping the kernel before shifting it across the input signal.
                 </p>
 
@@ -110,12 +114,117 @@
                 </p>
             </div>
 
-            <div class="convolution-in-multiple-domains">
+            <div class="dealing-with-discrete-signals">
+                <h2>2. Linear and Circular Convolutions</h2>
+                <p>
+                    Linear convolution can be thought of as the <em>true</em> convolution between two signals, 
+                    where one signal slides fully across the other without any boundary assumptions.
+                </p>
 
+                <p>
+                    Circular convolution, on the other hand, treats signals as if they are <strong>periodic</strong>
+                    and hence, <strong>repeat indefinitely</strong>.
+
+                    When the kernel moves past the end of the signal, it wraps back around to the beginning, 
+                    This behaviour results in overlaps that would not occur in linear convolution, and is
+                    usually not what we want when performing convolution.
+                </p>
+
+                <h3>2.1. Avoiding Circular Convolution</h3>
+                <p>
+                    This distinction is important because the Discrete Fourier Transform (DFT)
+                    naturally computes circular convolution. To achieve linear convolution using DFT, 
+                    we can pad both the input signal and kernel with zeroes to avoid the wrap-around effect.
+                </p>
+
+                <p>
+                    In the case of 1D, if the input signal has length \(m\) and the kernel has 
+                    length \(p\), both must be zero-padded to a minimum length of 
+                    \((m + p − 1)\) before performing the DFT. This ensures that circular 
+                    convolution in the frequency domain corresponds to linear convolution 
+                    in the time domain.
+                </p>
+
+                <p>
+                    In the case of 2D, if the input signal is of size \(m\) by \(n\) and the kernel
+                    is of size \(p\) by \(q\), both must be zero-padded to a minimum size of \((m + p − 1)\)
+                    by \((n + q − 1)\) before performing the DFT.
+                </p>
+            </div>
+
+            <div class="convolution-theorem">
+                <h2>3. Relationship between Convolution and Pairwise Multiplication</h2>
+                <p>
+                    Convolution and pairwise multiplication are two different ways of describing 
+                    the same operation in different domains.
+
+                    In other words, performing convolution of two signals in the time domain is equivalent to
+                    performing pairwise multiplication in the frequency domain.
+                </p>
+
+                <div class="info-box">
+                    <strong>Note:</strong> The mathematical proof behind the above assertion is not important for our purposes.
+                    See <a href="https://en.wikipedia.org/wiki/Convolution_theorem">Convolution Theorem</a> for more information.
+                </div>
+
+                <p>
+                    This duality allows us to switch between domains depending on which operation is 
+                    more convenient. In particular, convolution can be computed more efficiently by 
+                    transforming signals into the frequency domain, performing a simple multiplication, 
+                    and then transforming the result back.
+                </p>
+
+                <p>
+                    The operation described can be formally notated as:
+                </p>
+                <p>
+                    \[
+                    g[n] = \mathcal{F}^{-1} \{ H[k] \cdot X[k] \}
+                    \]
+                </p>
+                <p>
+                    where \(H[k] = \mathcal{F}\{h[n]\}\) and \(X[k] = \mathcal{F}\{x[n]\}\), 
+                    with \(\mathcal{F}\) denoting the Discrete Fourier Transform (DFT).
+                </p>
             </div>
 
             <div class="convolution-applications-1d">
                 <h2>1-Dimensional (1D) Applications of Convolution</h2>
+                <table>
+                    <tr>
+                        <td rowspan="2">Application</td>
+                        <td rowspan="2">Purpose</td>
+                        <td colspan="2">Operation performed in</td>
+                    </tr>
+                    <tr>
+                        <td>Time Domain</td>
+                        <td>Frequency Domain</td>
+                    </tr>
+                    <tr>
+                        <td>Signal Smoothing</td>
+                        <td>Reduce noise and rapid fluctuations in the signal</td>
+                        <td>Convolution</td>
+                        <td>Pairwise Multiplication</td>
+                    </tr>
+                    <tr>
+                        <td>Low Pass Filter</td>
+                        <td>Remove high-frequency components</td>
+                        <td>Convolution</td>
+                        <td>Pairwise Multiplication</td>
+                    </tr>
+                    <tr>
+                        <td>Adding Audio Effects (e.g. echo, reverb)</td>
+                        <td>Modify signal using impulse response</td>
+                        <td>Convolution</td>
+                        <td>Pairwise Multiplication</td>
+                    </tr>
+                    <tr>
+                        <td>Sampling</td>
+                        <td>Convert a continuous signal into discrete samples</td>
+                        <td>Pairwise Multiplication</td>
+                        <td>Convolution</td>
+                    </tr>
+                </table> 
             </div>
 
             <div class="convolution-applications-2d">
