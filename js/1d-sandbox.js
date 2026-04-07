@@ -207,7 +207,7 @@ function createChart(ctx, label, color) {
                 borderColor: color,
                 backgroundColor: color + "33",
                 fill: false,
-                tension: 0.2
+                tension: 0
             }]
         },
         options: {
