@@ -594,7 +594,6 @@ function drawComputation(terms, sum) {
 
 // Main render
 function draw() {
-    console.log("DRAW step =", step);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // drawAxes();

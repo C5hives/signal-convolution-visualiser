@@ -4,6 +4,7 @@
         <title>Signal Convolution for Dummies</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
         <div>
@@ -25,7 +26,7 @@
                 </div>
                 <p>
                     <p>
-                        Mathematically, the formula for convolution is as follows:
+                        Mathematically, the formula for discrete convolution is as follows:
                         $$g[n] = x[n] * h[n]$$
                     </p>
                 </p>
@@ -77,21 +78,23 @@
                     Alternatively, use the scrubber to seek to a specific point of the animation.
                 </p>
 
-                <canvas id="convolution-visualisation"></canvas>
-                <div class="controls">
-                    <div class="scrubber-container">
-                        <input
-                            type="range"
-                            id="stepScrubber"
-                            min="0"
-                            max="10"
-                            value="0"
-                        />
+                <div class="animation-container">
+                    <canvas id="convolution-visualisation"></canvas>
+                    <div class="controls">
+                        <div class="scrubber-container">
+                            <input
+                                type="range"
+                                id="stepScrubber"
+                                min="0"
+                                max="10"
+                                value="0"
+                            />
+                        </div>
+                        <button id="playPauseBtn">▶ Play</button>
+                        <button id="stepBackBtn">⏮ Step Back</button>
+                        <button id="stepForwardBtn">⏭ Step Forward</button>
+                        <button id="resetBtn">🔄 Reset</button>
                     </div>
-                    <button id="playPauseBtn">▶ Play</button>
-                    <button id="stepBackBtn">⏮ Step Back</button>
-                    <button id="stepForwardBtn">⏭ Step Forward</button>
-                    <button id="resetBtn">🔄 Reset</button>
                 </div>
 
                 <h3>1.3. Observations</h2>
@@ -195,8 +198,8 @@
                 Convolution is a fundamental operation used across domains such as:
             </p>
                 <ul>
-                    <li>processing audio signals</li>
-                    <li>processing/analysing images</li>
+                    <li>Processing audio signals</li>
+                    <li>Processing/analysing images</li>
                 </ul> 
             <p>
                 While the underlying mathematical principle remains the same, its applications
@@ -254,12 +257,6 @@
                             <td>Convolution</td>
                             <td>Pairwise Multiplication</td>
                         </tr>
-                        <tr>
-                            <td>Sampling</td>
-                            <td>Convert a continuous signal into discrete samples</td>
-                            <td>Pairwise Multiplication</td>
-                            <td>Convolution</td>
-                        </tr>
                     </tbody>
                     
                 </table> 
@@ -267,7 +264,81 @@
 
             <div class="convolution-sandbox-1d">
                 <h4>4.1.1. Try it Yourself!</h4>
-                <!--some interactive sandbox here-->
+
+                <div class="sandbox-intro">
+                    <p>
+                        This sandbox demonstrates some of the applications of <strong>1D convolution</strong> in the time domains.
+                    </p>
+
+                    <ul>
+                        <li><strong>Input Signal:</strong> The data you are processing</li>
+                        <li><strong>Kernel:</strong> The filter that shapes the signal</li>
+                        <li><strong>Output:</strong> Result of applying the kernel (convolution)</li>
+                        <li><strong>Time/Frequency Toggle:</strong> Shows how signals behave in both domains</li>
+                    </ul>
+                    <div class="info-box">
+                        <strong>Tip:</strong> Change the kernel and observe how it changes the output.
+                    </div>
+                </div>
+
+                <div class="sandbox-controls">
+
+                    <!-- Presets -->
+                    <div class="control-group">
+                        <label for="presetSelect-1d">Presets:</label>
+                        <select id="presetSelect-1d">
+                            <option value="">-- Select a preset --</option>
+                        </select>
+                    </div>
+
+                    <!-- Signal -->
+                    <div class="control-group">
+                        <label for="signalSelect-1d">Input Signal:</label>
+                        <select id="signalSelect-1d"></select>
+                    </div>
+
+                    <!-- Kernel -->
+                    <div class="control-group">
+                        <label for="kernelSelect-1d">Kernel:</label>
+                        <select id="kernelSelect-1d"></select>
+                    </div>
+
+                    <!-- Domain Toggle -->
+                    <div class="control-group toggle-group">
+
+                        <span class="toggle-label">Time</span>
+
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="freqToggle-1d">
+                            <span class="slider"></span>
+                        </label>
+
+                        <span class="toggle-label">Frequency</span>
+
+                    </div>
+
+                </div>
+
+                <div class="sandbox-grid">
+                    <div class="plot-box">
+                        <canvas id="inputChart-1d"></canvas>
+                        <div class="plot-label"><strong>Input Signal</strong></div>
+                    </div>
+
+                    <div class="plot-box">
+                        <canvas id="kernelChart-1d"></canvas>
+                        <div class="plot-label"><strong>Kernel Signal</strong></div>
+                    </div>
+
+                    <div class="plot-box">
+                        <canvas id="outputChart-1d"></canvas>
+                        <div class="plot-label"><strong>Output Signal</strong></div>
+                    </div>
+
+                    <div class="plot-box explanation-box">
+                        <p id="presetDescription"></p>
+                    </div>
+                </div>
             </div>
 
             <div class="convolution-applications-2d">
@@ -339,8 +410,9 @@
             <div class="references">
                 <h2>5. References & Acknowledgements</h2>
             </div>
-            <script src="convolution-step-visualisation.js"></script>
-            <!-- <script src="script.js"></script> -->
+            <script src="js/convolution-step-visualisation.js"></script>
+            <script src="js/fft.js"></script>
+            <script src="js/1d-sandbox.js"></script>
         </div>
     </body>
 </html>

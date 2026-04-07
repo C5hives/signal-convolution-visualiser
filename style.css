@@ -23,7 +23,6 @@ body {
 
 canvas {
     border: 1px solid #ccc;
-    margin: 10px 0;
 }
 
 #mathBox {
@@ -47,10 +46,6 @@ canvas {
     gap: 20px;
 }
 
-canvas {
-    display: block;
-}
-
 .info-box {
     border-left: 4px solid #3b82f6;
     background-color: #eff6ff;
@@ -60,7 +55,7 @@ canvas {
 }
 
 .scrubber-container {
-    width: 900px;
+    width: 100%;
     margin-top: 10px;
 }
 
@@ -118,4 +113,148 @@ tr:hover {
 /* remove bottom border on last row to prevent overflow past radius */
 tr:last-child td {
     border-bottom: none;
+}
+
+.sandbox-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.sandbox-plots {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+/* Container */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+/* Hide default checkbox */
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Slider background */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+/* Knob */
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+/* Checked state */
+.toggle-switch input:checked + .slider {
+    background-color: #4caf50;
+}
+
+.toggle-switch input:checked + .slider::before {
+    transform: translateX(20px);
+}
+
+/* Optional labels */
+.toggle-label {
+    font-size: 0.9rem;
+    margin: 0 6px;
+}
+
+.toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-switch {
+    transform: scale(1.1);
+}
+
+.convolution-sandbox-1d .sandbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.convolution-sandbox-1d .plot-box {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* IMPORTANT: scoped canvas rule */
+.convolution-sandbox-1d .plot-box canvas {
+    width: 100%;
+    height: 180px;
+}
+
+.convolution-sandbox-1d canvas {
+    display: block;
+    width: 100%;
+    max-height: 200px;
+}
+
+/* Labels under charts */
+.plot-label {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    opacity: 0.7;
+}
+
+/* Explanation box */
+.explanation-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.animation-container {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.animation-container canvas {
+    margin: 10px 0;
+    width: 100% !important;
+    height: auto; /* adjust as needed */
+    display: block;
+    border: 1px solid #ccc;
+}
+
+.sandbox-intro {
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.sandbox-intro ul {
+    margin: 6px 0 0 18px;
+    padding: 0;
 }
