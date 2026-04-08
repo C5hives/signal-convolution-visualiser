@@ -3,7 +3,6 @@
 // ==============================
 
 (function () {
-
     const signalSize = 32;
     const imageSize = 128;
 
@@ -21,6 +20,8 @@
         kernel: [],
         output: []
     };
+
+    const kernelDescription = document.getElementById("kernelDescription-2d");
 
     let isApplyingPreset = false;
 
@@ -118,6 +119,7 @@
     function drawMatrix(ctx, mat) {
         const rect = ctx.canvas.getBoundingClientRect();
         const h = mat.length, w = mat[0].length;
+
         const cw = rect.width / w;
         const ch = rect.height / h;
 
@@ -127,9 +129,16 @@
 
         for (let i = 0; i < h; i++) {
             for (let j = 0; j < w; j++) {
+
                 const g = Math.floor(n[i][j] * 255);
                 ctx.fillStyle = `rgb(${g},${g},${g})`;
-                ctx.fillRect(j * cw, i * ch, cw, ch);
+
+                const x = Math.floor(j * cw);
+                const y = Math.floor(i * ch);
+                const w2 = Math.ceil((j + 1) * cw) - x;
+                const h2 = Math.ceil((i + 1) * ch) - y;
+
+                ctx.fillRect(x, y, w2, h2);
             }
         }
     }
@@ -241,6 +250,8 @@
         drawMatrix(inputCtx, state.input);
         drawMatrix(kernelCtx, state.kernel);
         drawMatrix(outputCtx, state.output);
+
+        updateKernelDescription(); 
     }
 
     // ==============================
@@ -336,6 +347,16 @@
         }
     }
 
+    function updateKernelDescription() {
+        const key = state.kernelKey;
+        if (!key || !kernelOptions[key]) {
+            kernelDescription.textContent = "";
+            return;
+        }
+
+        kernelDescription.textContent = kernelOptions[key].description;
+    }
+
     // ==============================
     // INIT
     // ==============================
@@ -348,6 +369,7 @@
         const signalSelect = document.getElementById("signalSelect-2d");
         const kernelSelect = document.getElementById("kernelSelect-2d");
         const presetSelect = document.getElementById("presetSelect-2d");
+        const imageUpload = document.getElementById("imageUpload-2d");
 
         populateSignal(signalSelect);
         populateKernel(kernelSelect);
@@ -376,6 +398,26 @@
         };
 
         presetSelect.onchange = e => applyPreset(e.target.value);
+
+        imageUpload.onchange = (e) => {
+            if (!e.target.files || !e.target.files[0]) return;
+
+            const file = e.target.files[0];
+            const url = URL.createObjectURL(file);
+
+            const img = new Image();
+            img.onload = () => {
+                state.mode = "image";
+                state.inputKey = "uploaded";
+
+                state.input = imageToMatrix(img, imageSize);
+                update();
+
+                URL.revokeObjectURL(url); // cleanup memory
+            };
+
+            img.src = url;
+        };
     }
 
     init();
