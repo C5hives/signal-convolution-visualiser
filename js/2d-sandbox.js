@@ -435,26 +435,6 @@
 
         presetSelect.onchange = e => applyPreset(e.target.value);
 
-        // imageUpload.onchange = (e) => {
-        //     if (!e.target.files || !e.target.files[0]) return;
-
-        //     const file = e.target.files[0];
-        //     const url = URL.createObjectURL(file);
-
-        //     const img = new Image();
-        //     img.onload = () => {
-        //         state.mode = "image";
-        //         state.inputKey = "uploaded";
-
-        //         state.input = imageToMatrix(img, imageSize);
-        //         update();
-
-        //         URL.revokeObjectURL(url); // cleanup memory
-        //     };
-
-        //     img.src = url;
-        // };
-
         imageUpload.onchange = async (e) => {
             if (!e.target.files || !e.target.files[0]) return;
             const file = e.target.files[0];
