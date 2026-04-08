@@ -360,6 +360,7 @@ footer {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    justify-content: center;
 }
 
 .navbar a {
