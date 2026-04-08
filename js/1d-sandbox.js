@@ -214,6 +214,7 @@ function createChart(ctx, label, color) {
             responsive: true,
             maintainAspectRatio: false,
             animation: false,
+            resizeDelay: 0,
             plugins: {
                 legend: {
                     display: false
@@ -424,6 +425,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         update();
         updateExplanation();
+    });
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            inputChart.resize();
+            kernelChart.resize();
+            outputChart.resize();
+        }, 100);
     });
 
     update();
