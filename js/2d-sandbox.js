@@ -435,24 +435,56 @@
 
         presetSelect.onchange = e => applyPreset(e.target.value);
 
-        imageUpload.onchange = (e) => {
+        // imageUpload.onchange = (e) => {
+        //     if (!e.target.files || !e.target.files[0]) return;
+
+        //     const file = e.target.files[0];
+        //     const url = URL.createObjectURL(file);
+
+        //     const img = new Image();
+        //     img.onload = () => {
+        //         state.mode = "image";
+        //         state.inputKey = "uploaded";
+
+        //         state.input = imageToMatrix(img, imageSize);
+        //         update();
+
+        //         URL.revokeObjectURL(url); // cleanup memory
+        //     };
+
+        //     img.src = url;
+        // };
+
+        imageUpload.onchange = async (e) => {
             if (!e.target.files || !e.target.files[0]) return;
-
             const file = e.target.files[0];
-            const url = URL.createObjectURL(file);
+            if (!file) return;
 
-            const img = new Image();
-            img.onload = () => {
-                state.mode = "image";
-                state.inputKey = "uploaded";
+            const bitmap = await createImageBitmap(file);
 
-                state.input = imageToMatrix(img, imageSize);
-                update();
+            const canvas = document.createElement("canvas");
+            canvas.width = imageSize;
+            canvas.height = imageSize;
 
-                URL.revokeObjectURL(url); // cleanup memory
-            };
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(bitmap, 0, 0, imageSize, imageSize);
 
-            img.src = url;
+            const data = ctx.getImageData(0, 0, imageSize, imageSize).data;
+
+            const m = emptyMatrix(imageSize, imageSize);
+
+            for (let i = 0; i < imageSize; i++) {
+                for (let j = 0; j < imageSize; j++) {
+                    const k = (i * imageSize + j) * 4;
+                    m[i][j] = (data[k] + data[k+1] + data[k+2]) / 3 / 255;
+                }
+            }
+
+            state.mode = "image";
+            state.inputKey = "uploaded";
+            state.input = m;
+
+            update();
         };
     }
 
