@@ -302,7 +302,7 @@ const presets2D = {
             signalSelect.value = inputKey;
 
             const img = new Image();
-
+            img.crossOrigin = "anonymous";
             img.onload = () => {
                 input = imageToMatrix(img, imageSize);
                 update();
@@ -527,7 +527,7 @@ const presets2D = {
                 inputMode = "image";
 
                 const img = new Image();
-
+                img.crossOrigin = "anonymous";
                 img.onload = () => {
                     input = imageToMatrix(img, imageSize);
                     update();
@@ -555,6 +555,7 @@ const presets2D = {
             if (!file) return;
 
             const img = new Image();
+            img.crossOrigin = "anonymous";
             img.onload = () => {
                 inputMode = "image";
                 inputImage = img;
