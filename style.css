@@ -392,3 +392,17 @@ header {
 main > div {
     scroll-margin-top: 150px;
 }
+
+.control-group {
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group button,
+.control-group span,
+.control-group input {
+    font-size: inherit;
+    font-family: inherit;
+}
