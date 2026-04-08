@@ -3,14 +3,28 @@
     <head>
         <title>Signal Convolution for Dummies</title>
         <link rel="stylesheet" href="style.css">
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
-        <div>
+        <header>
             <h1>Signal Convolution for Dummies</h1>
 
-            <div class="introduction">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#how-to">How It Works</a></li>
+                    <li><a href="#linear-vs-circular">Linear vs Circular</a></li>
+                    <li><a href="#theorem">Convolution Theorem</a></li>
+                    <li><a href="#applications-1d">1D Applications</a></li>
+                    <li><a href="#sandbox-1d">1D Sandbox</a></li>
+                    <li><a href="#applications-2d">2D Applications</a></li>
+                    <li><a href="#sandbox-2d">2D Sandbox</a></li>
+                    <li><a href="#footer">References</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="introduction" id="introduction">
                 <h2>1. What is a Convolution?</h2>
 
                 <p>
@@ -22,7 +36,7 @@
                     <strong>Note:</strong> A kernel can sometimes be referred to as an impulse signal.
                 </div>
                 <div class="info-box">
-                    <strong>Note:</strong> All signals discussed on this webpage will be discrete signals unless stated otherwise.
+                    <strong>Note:</strong> All signals discussed on this webpage will be discrete unless stated otherwise.
                 </div>
                 <p>
                     <p>
@@ -36,7 +50,7 @@
                 </p>
             </div>
 
-            <div class="how-to-perform-a-convolution">
+            <div class="how-to-perform-a-convolution" id="how-to">
                 <h3>1.1. How do you perform a Convolution?</h2>
                 <p>
                     You can think of it as a small window, the kernel in this case, sliding across the
@@ -62,7 +76,7 @@
                 <ul>
                     <li><strong>Input Signal:</strong> Green</li>
                     <li><strong>Kernel:</strong> Blue</li>
-                    <li><strong>Convolved Signal (Output):</strong> Purple</li>
+                    <li><strong>Convolved Output Signal:</strong> Purple</li>
                 </ul> 
 
                 <p>
@@ -115,7 +129,7 @@
                 </p>
             </div>
 
-            <div class="linear-vs-circular-convolutions">
+            <div class="linear-vs-circular-convolutions" id="linear-vs-circular">
                 <h2>2. Linear vs. Circular Convolutions</h2>
                 <p>
                     Linear convolution can be thought of as the <em>true</em> convolution between two signals, 
@@ -156,7 +170,7 @@
                 </ul> 
             </div>
 
-            <div class="convolution-theorem">
+            <div class="convolution-theorem" id="theorem">
                 <h2>3. Relationship between Convolution and Pairwise Multiplication</h2>
                 <p>
                     Convolution and pairwise multiplication are two different ways of describing 
@@ -206,7 +220,7 @@
                 can vary depending on whether the data is one-dimensional or two-dimensional.
             </p>
 
-            <div class="convolution-applications-1d">
+            <div class="convolution-applications-1d" id="applications-1d">
                 <h3>4.1. One-Dimensional (1D) Applications of Convolution</h3>
                 <p>
                     In one-dimensional signals such as audio or time-series data, convolution can be 
@@ -262,7 +276,7 @@
                 </table> 
             </div>
 
-            <div class="convolution-sandbox-1d">
+            <div class="convolution-sandbox-1d" id="sandbox-1d">
                 <h4>4.1.1. Try it Yourself!</h4>
 
                 <div class="sandbox-intro">
@@ -276,9 +290,6 @@
                         <li><strong>Output:</strong> Result of applying the kernel (convolution)</li>
                         <li><strong>Time/Frequency Toggle:</strong> Shows how signals behave in both domains</li>
                     </ul>
-                    <div class="info-box">
-                        <strong>Tip:</strong> Change the kernel and observe how it changes the output.
-                    </div>
                 </div>
 
                 <div class="sandbox-controls">
@@ -341,7 +352,7 @@
                 </div>
             </div>
 
-            <div class="convolution-applications-2d">
+            <div class="convolution-applications-2d" id="applications-2d">
                 <h3>4.2. Two-Dimensional (2D) Applications of Convolution</h3>
                 <p>
                     In two-dimensional signals such as images, convolution operates over both height 
@@ -383,7 +394,7 @@
                         <tr>
                             <td>Image Sharpening</td>
                             <td>Enhance edges and fine details</td>
-                            <td>Convolution (high-pass filter)</td>
+                            <td>Convolution</td>
                             <td>Pairwise Multiplication</td>
                         </tr>
                         <tr>
@@ -402,18 +413,109 @@
                 </table>
             </div>
 
-            <div class="convolution-sandbox-1d">
+            <div class="convolution-sandbox-2d" id="sandbox-2d">
                 <h4>4.2.1. Try it Yourself!</h4>
-                <!--some interactive sandbox here-->
+                <div class="sandbox-intro">
+                    <p>
+                        This sandbox demonstrates some of the applications of <strong>2D convolution</strong> in the spatial domain (images).
+                    </p>
+
+                    <ul>
+                        <li><strong>Input Image:</strong> The image data being processed</li>
+                        <li><strong>Kernel:</strong> The filter applied to extract or modify features in the image</li>
+                        <li><strong>Output Image:</strong> The result after applying the convolution operation</li>
+                        <li><strong>Upload Image:</strong> Allows you to upload your own custom images</li>
+                    </ul>
+                    <div class="info-box">
+                        <strong>Note:</strong> Uploaded images are resized to a fixed grid and converted to grayscale before convolution. 
+                        Each pixel is represented by a single intensity value, so color information is not preserved and fine details may be smoothed out.
+                    </div>
+                </div>
+
+                <div class="sandbox-controls">
+
+                    <div class="control-group">
+                        <label>Presets:</label>
+                        <select id="presetSelect-2d">
+                            <option value="">-- Select a preset --</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Input:</label>
+                        <select id="signalSelect-2d"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Kernel:</label>
+                        <select id="kernelSelect-2d"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Upload Image:</label>
+                        <input type="file" id="imageUpload-2d" accept="image/*">
+                    </div>
+
+                </div>
+
+                <div class="sandbox-grid">
+                    <div class="plot-box">
+                        <canvas id="inputCanvas-2d" width="200" height="200"></canvas>
+                        <div class="plot-label"><strong>Input Image</strong></div>
+                    </div>
+
+                    <div class="plot-box kernel-box">
+                        <canvas id="kernelCanvas-2d" width="200" height="200"></canvas>
+                        <div class="plot-label"><strong>Kernel</strong></div>
+                    </div>
+
+                    <div class="plot-box">
+                        <canvas id="outputCanvas-2d" width="200" height="200"></canvas>
+                        <div class="plot-label"><strong>Output Image</strong></div>
+                    </div>
+
+                    <div class="plot-box explanation-box">
+                        <p id="presetDescription-2d"></p>
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+        
+        <footer id="footer">
+            <div class="acknowledgements">
+                <h2>Acknowledgements</h2>
+                <p>
+                    This webpage was created as the course project for the National University of Singapore (NUS) module <strong>CS2108: Introduction to Media Computing</strong>,
+                    and was realised with assistance from <a href="https://chatgpt.com/">ChatGPT</a>.
+                </p>
+                
+
             </div>
 
             <div class="references">
-                <h2>5. References & Acknowledgements</h2>
+                <h2>References</h2>
+                <p>Bird Society of Singapore. (n.d.). <i>Black-naped Oriole</i> [Photograph]. <a href="http://singaporebirds.com/species/black-naped-oriole/">http://singaporebirds.com/species/black-naped-oriole/</a></p>
+                <p>danigb, Indutny, F., Osserman, H., Sullivan, J. (2021). <i>FFT.js</i>. Github. <a href="https://github.com/indutny/fft.js">https://github.com/indutny/fft.js</a></p>
+                <p>Ng, T. K. (n.d.). [Image of Associate Professor Ng Teck Kim]. National University of Singapore. <a href="https://www.comp.nus.edu.sg/~ngtk/">https://www.comp.nus.edu.sg/~ngtk/</a></p>
+                <p>Ng, T. K. (2026a). <i>Chapter 4: Fourier Transform</i> [Class notes]. Canvas.</p>
+                <p>Ng, T. K. (2026b). <i>Chapter 5: 2D Fourier Transform</i> [Class notes]. Canvas.</p>
+                <p>Ng, T. K. (2026c). <i>Chapter 6: Convolution</i> [Class notes]. Canvas.</p>
+                <p>Tinker-Tsavalas, A. (2021). <i> Chicory (Cichorium intybus)</i> [Photograph]. iNaturalist. <a href="https://www.inaturalist.org/photos/147530459">https://www.inaturalist.org/photos/147530459</a></p>
+                <p>Wikipedia. (2026). <i>Convolution theorem</i>. <a href="https://en.wikipedia.org/wiki/Convolution_theorem">https://en.wikipedia.org/wiki/Convolution_theorem</a></p>
             </div>
-            <script src="js/convolution-step-visualisation.js"></script>
-            <script src="js/fft.js"></script>
-            <script src="js/1d-sandbox.js"></script>
-            <script src="js/2d-sandbox.js"></script>
-        </div>
+        </footer>
+
+        <!-- Libraries -->
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <!-- Adapted libraries-->
+        <script src="js/fft.js"></script>
+
+        <!-- Your code -->
+        <script src="js/convolution-step-visualisation.js"></script> 
+        <script src="js/1d-sandbox.js"></script>
+        <script src="js/2d-sandbox.js"></script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-// FFT implementation adapted from fft.js (MIT License)
+// FFT implementation adapted from fft.js
 // https://github.com/indutny/fft.js
 
 'use strict';

@@ -225,7 +225,13 @@ tr:last-child td {
 }
 
 .convolution-sandbox-1d canvas {
+    flex: 1;
     display: block;
+    min-height: 0;
+}
+
+.plot-label {
+    height: 10px; /* reserve space */
 }
 
 /* Labels under charts */
@@ -266,4 +272,122 @@ tr:last-child td {
 .sandbox-intro ul {
     margin: 6px 0 0 18px;
     padding: 0;
+}
+
+/* for the 2D sandbox */
+.convolution-sandbox-2d .sandbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.7fr 1fr;
+    gap: 16px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.convolution-sandbox-2d .kernel-box {
+    opacity: 0.95;
+    transform: translateY(2px);
+}
+
+.convolution-sandbox-2d .plot-box {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: auto;
+}
+
+.convolution-sandbox-2d canvas {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    display: block;
+}
+
+.convolution-sandbox-2d .explanation-box {
+    grid-column: 1 / -1;
+
+    display: block;   /* ✅ simpler */
+    text-align: left;
+
+    padding: 8px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.convolution-sandbox-2d .plot-label {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    opacity: 0.75;
+}
+
+#presetDescription-2d {
+    text-align: left;
+    white-space: normal;
+}
+
+.references p {
+    margin-left: 24px;
+    text-indent: -24px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.navbar {
+    margin-top: 10px;
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+html {
+    scroll-behavior: smooth;
+    line-height: 1.3;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background-color: var(--off-white); /* important so content doesn't show through */
+    padding: 10px 5px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+main > div {
+    scroll-margin-top: 150px;
 }
