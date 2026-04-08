@@ -44,12 +44,48 @@
     };
 
     const kernelOptions = {
-        blur: { label: "Blur", description: "Averaging blur kernel" },
-        sharpen: { label: "Sharpen", description: "Enhance edges" },
-        edge: { label: "Edge Detect", description: "Basic edge detection" },
-        gaussian: { label: "Gaussian Blur", description: "Gaussian smoothing" },
-        sobel: { label: "Sobel", description: "Directional edges" },
-        emboss: { label: "Emboss", description: "Relief effect" }
+        blur: { 
+            label: "Blurring",
+            description: `
+                The blur kernel averages neighbouring pixels, smoothing out sharp changes.
+                This reduces noise and removes high-frequency details in the image.
+            `
+        },
+        sharpen: { 
+            label: "Sharpening",
+            description: `
+                The sharpen kernel emphasises differences between a pixel and its neighbours.
+                This enhances edges and makes details appear more pronounced.
+            `
+        },
+        edge: {
+            label: "Edge Detection",
+            description: `
+                The edge detection kernel highlights regions where pixel values change rapidly.
+                These large differences correspond to edges and boundaries in the image.
+            `
+        },
+        gaussian: {
+            label: "Gaussian Blur",
+            description: `
+                A smoother blur than box blur.
+                It weighs center pixels more heavily, producing more natural smoothing.
+            `
+        },
+        sobel: {
+            label: "Sobel Filter",
+            description: `
+                Detects edges using gradient approximation.
+                The current sobel filter kernel highlights vertical intensity changes, but can also be configured for horizontal edges.
+            `
+        },
+        emboss: {
+            label: "Embossing",
+            description: `
+                Creates a 3D relief effect by emphasizing directional intensity changes.
+                Produces the illusion of a raised surface.
+            `
+        }
     };
 
     const presets2D = {
@@ -354,7 +390,7 @@
             return;
         }
 
-        kernelDescription.textContent = kernelOptions[key].description;
+        kernelDescription.innerHTML = `<strong>${kernelOptions[key].label}:</strong> ${kernelOptions[key].description}`;
     }
 
     // ==============================
